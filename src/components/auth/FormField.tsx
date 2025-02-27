@@ -1,6 +1,7 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { AlertCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface FormFieldProps {
   id: string;
@@ -29,27 +30,63 @@ const FormField: React.FC<FormFieldProps> = ({
   rightElement,
   className = "",
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <div className={`space-y-2 ${className}`}>
-      <label htmlFor={id} className="text-sm font-medium ml-1">
+      <motion.label 
+        htmlFor={id} 
+        className="text-sm font-medium ml-1 inline-block"
+        animate={{ 
+          color: isFocused 
+            ? "var(--primary)" 
+            : error && touched 
+              ? "rgb(239, 68, 68)" 
+              : "currentColor" 
+        }}
+        transition={{ duration: 0.2 }}
+      >
         {label}
-      </label>
+      </motion.label>
       <div className="relative">
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+        <motion.div 
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+          animate={{ 
+            color: isFocused 
+              ? "var(--primary)" 
+              : error && touched 
+                ? "rgb(239, 68, 68)" 
+                : "var(--muted-foreground)"
+          }}
+          transition={{ duration: 0.2 }}
+        >
           {icon}
-        </div>
-        <input
+        </motion.div>
+        <motion.input
           type={type}
           id={id}
           name={id}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`h-12 w-full pl-10 ${rightElement ? "pr-12" : "pr-4"} rounded-lg border bg-transparent text-sm outline-none transition-all focus:ring-2 ${
-            error && touched 
-              ? "border-red-500 focus:ring-red-200" 
-              : "border-input focus:ring-primary/20"
-          }`}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          animate={{ 
+            boxShadow: isFocused 
+              ? error && touched 
+                ? "0 0 0 2px rgba(239, 68, 68, 0.2)" 
+                : "0 0 0 2px rgba(var(--primary), 0.2)" 
+              : "none",
+            borderColor: isFocused 
+              ? error && touched 
+                ? "rgb(239, 68, 68)" 
+                : "var(--primary)" 
+              : error && touched 
+                ? "rgb(239, 68, 68)" 
+                : "var(--input)" 
+          }}
+          transition={{ duration: 0.2 }}
+          className={`h-12 w-full pl-10 ${rightElement ? "pr-12" : "pr-4"} rounded-lg border bg-transparent text-sm outline-none transition-all`}
         />
         {rightElement && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -58,10 +95,15 @@ const FormField: React.FC<FormFieldProps> = ({
         )}
       </div>
       {error && touched && (
-        <div className="flex items-center gap-x-1 text-red-500 text-sm mt-1 ml-1">
+        <motion.div 
+          className="flex items-center gap-x-1 text-red-500 text-sm mt-1 ml-1"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+        >
           <AlertCircle size={14} />
           <span>{error}</span>
-        </div>
+        </motion.div>
       )}
     </div>
   );
