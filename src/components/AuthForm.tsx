@@ -21,6 +21,9 @@ const AuthForm = ({ mode }: AuthFormProps) => {
       <motion.div 
         className="glass dark:glass-dark rounded-2xl px-8 pt-10 pb-12 shadow-xl relative overflow-hidden"
         whileHover={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
+        initial={{ borderRadius: "12px" }}
+        animate={{ borderRadius: "16px" }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
       >
         {/* Animated background gradient */}
         <motion.div
@@ -28,7 +31,8 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           animate={{ 
             x: [0, 30, 0], 
             y: [0, 30, 0],
-            scale: [1, 1.2, 1]
+            scale: [1, 1.2, 1],
+            rotate: [0, 10, 0]
           }}
           transition={{
             duration: 15,
@@ -41,7 +45,8 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           animate={{ 
             x: [0, -30, 0], 
             y: [0, -30, 0],
-            scale: [1, 1.2, 1]
+            scale: [1, 1.2, 1],
+            rotate: [0, -10, 0]
           }}
           transition={{
             duration: 18,

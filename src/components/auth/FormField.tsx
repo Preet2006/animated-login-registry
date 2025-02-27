@@ -42,7 +42,9 @@ const FormField: React.FC<FormFieldProps> = ({
             ? "var(--primary)" 
             : error && touched 
               ? "rgb(239, 68, 68)" 
-              : "currentColor" 
+              : "currentColor",
+          y: isFocused ? -2 : 0,
+          scale: isFocused ? 1.05 : 1
         }}
         transition={{ duration: 0.2 }}
       >
@@ -56,9 +58,14 @@ const FormField: React.FC<FormFieldProps> = ({
               ? "var(--primary)" 
               : error && touched 
                 ? "rgb(239, 68, 68)" 
-                : "var(--muted-foreground)"
+                : "var(--muted-foreground)",
+            scale: isFocused ? 1.1 : 1,
+            rotate: isFocused ? [0, -10, 10, -10, 0] : 0
           }}
-          transition={{ duration: 0.2 }}
+          transition={{ 
+            duration: 0.3,
+            rotate: { duration: 0.5, delay: 0.2 }
+          }}
         >
           {icon}
         </motion.div>
@@ -83,7 +90,8 @@ const FormField: React.FC<FormFieldProps> = ({
                 : "var(--primary)" 
               : error && touched 
                 ? "rgb(239, 68, 68)" 
-                : "var(--input)" 
+                : "var(--input)",
+            y: isFocused ? -2 : 0 
           }}
           transition={{ duration: 0.2 }}
           className={`h-12 w-full pl-10 ${rightElement ? "pr-12" : "pr-4"} rounded-lg border bg-transparent text-sm outline-none transition-all`}
@@ -97,8 +105,9 @@ const FormField: React.FC<FormFieldProps> = ({
       {error && touched && (
         <motion.div 
           className="flex items-center gap-x-1 text-red-500 text-sm mt-1 ml-1"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: -10, height: 0 }}
+          animate={{ opacity: 1, y: 0, height: "auto" }}
+          exit={{ opacity: 0, y: -10, height: 0 }}
           transition={{ type: "spring", stiffness: 500, damping: 30 }}
         >
           <AlertCircle size={14} />

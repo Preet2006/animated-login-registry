@@ -26,6 +26,9 @@ const FormButton: React.FC<FormButtonProps> = ({
         scale: 1.02
       }}
       whileTap={{ scale: 0.98 }}
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
     >
       {isSubmitting ? (
         <div className="flex items-center justify-center">
@@ -36,13 +39,31 @@ const FormButton: React.FC<FormButtonProps> = ({
           ></motion.div>
         </div>
       ) : (
-        <span>{label}</span>
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {label}
+        </motion.span>
       )}
       <motion.div
         className="absolute bottom-0 left-0 h-1 bg-white/20"
         initial={{ width: 0 }}
         animate={{ width: isSubmitting ? "100%" : 0 }}
         transition={{ duration: 2, repeat: isSubmitting ? Infinity : 0 }}
+      />
+      <motion.div
+        className="absolute inset-0 bg-white opacity-0"
+        animate={{ opacity: [0, 0.1, 0] }}
+        transition={{ 
+          duration: 1.5,
+          repeat: Infinity,
+          repeatType: "loop",
+          ease: "easeInOut",
+          repeatDelay: 1
+        }}
       />
     </motion.button>
   );
