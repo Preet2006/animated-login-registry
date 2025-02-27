@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 const pageVariants = {
   initial: {
     opacity: 0,
-    y: 5,
-    scale: 0.99,
+    y: 10,
+    scale: 0.98,
   },
   in: {
     opacity: 1,
@@ -15,15 +15,15 @@ const pageVariants = {
   },
   out: {
     opacity: 0,
-    y: 5,
-    scale: 0.99,
+    y: -10,
+    scale: 0.98,
   },
 };
 
 const pageTransition = {
   type: "tween",
-  ease: "anticipate",
-  duration: 0.4,
+  ease: [0.25, 0.1, 0.25, 1], // cubic-bezier
+  duration: 0.6,
 };
 
 interface PageTransitionProps {
